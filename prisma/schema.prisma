@@ -1,0 +1,26 @@
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:ti&T0L3D0@localhost:3306/posto"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+}
+
+model Company {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique // Nome da empresa
+  legalName    String   // Razão Social da empresa
+  cnpj         String   @unique // CNPJ da empresa
+  phone        String   // Telefone da empresa
+  email        String   // E-mail da empresa
+  users        User[]   // Relacionamento com os usuários
+}
